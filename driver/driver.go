@@ -10,8 +10,8 @@ import (
 	"strings"
 
 	"github.com/juju/errors"
-	"github.com/siddontang/go-mysql/client"
-	"github.com/siddontang/go-mysql/mysql"
+	"github.com/karmakaze/go-mysql/client"
+	"github.com/karmakaze/go-mysql/mysql"
 	"github.com/siddontang/go/hack"
 )
 
@@ -91,7 +91,7 @@ func buildArgs(args []sqldriver.Value) []interface{} {
 }
 
 func replyError(err error) error {
-	if err == mysql.ErrBadConn {
+	if mysql.ErrorEqual(err, mysql.ErrBadConn) {
 		return sqldriver.ErrBadConn
 	} else {
 		return errors.Trace(err)

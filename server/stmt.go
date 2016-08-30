@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/juju/errors"
-	. "github.com/siddontang/go-mysql/mysql"
+	. "github.com/karmakaze/go-mysql/mysql"
 )
 
 var paramFieldData []byte
@@ -347,6 +347,15 @@ func (c *Conn) handleStmtClose(data []byte) error {
 	}
 
 	id := binary.LittleEndian.Uint32(data[0:4])
+
+	stmt, ok := c.stmts[id]
+	if !ok {
+		return nil
+	}
+
+	if err := c.h.HandleStmtClose(stmt.Context); err != nil {
+		return err
+	}
 
 	delete(c.stmts, id)
 

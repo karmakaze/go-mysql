@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 
-	. "github.com/siddontang/go-mysql/mysql"
+	. "github.com/karmakaze/go-mysql/mysql"
 	"github.com/siddontang/go/hack"
 )
 
@@ -22,6 +22,9 @@ type Handler interface {
 	//handle COM_STMT_EXECUTE, context is the previous one set in prepare
 	//query is the statement prepare query, and args is the params for this statement
 	HandleStmtExecute(context interface{}, query string, args []interface{}) (*Result, error)
+	//handle COM_STMT_CLOSE, context is the previous one set in prepare
+	//this handler has no response
+	HandleStmtClose(context interface{}) (error)
 }
 
 func (c *Conn) HandleCommand() error {
